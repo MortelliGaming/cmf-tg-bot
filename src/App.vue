@@ -11,14 +11,9 @@ export default {
 
 <style lang="scss">
 @import 'bulma/bulma.sass';
-@font-face { 
-    font-family: "Turkey_Sandwich_Regular";
-    src: url('./assets/fonts/Turkey_Sandwich_Regular/TurkeySandwich.woff2') format('woff2'),
-        url("./assets/fonts/Turkey_Sandwich_Regular/Turkey_Sandwich_Regular.ttf")   format('truetype'),
-        url('./assets/fonts/Turkey_Sandwich_Regular/TurkeySandwich.woff') format('woff');
-}
+
 #app {
-  font-family: Turkey_Sandwich_Regular, Avenir, Orbitron,  Arial, sans-serif;
+  font-family: Orbitron, Avenir, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   text-align: center;

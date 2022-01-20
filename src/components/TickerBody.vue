@@ -54,11 +54,11 @@ export default {
   margin-top: -70px;
 }
 .token-price {
-  font-size: 150px;
+  font-size: 100px;
   font-weight: bold;
 }
 .token-market-cap {
-  font-size: 80px;
+  font-size: 45px;
   font-weight: bold;
 }
 .hero-body {
