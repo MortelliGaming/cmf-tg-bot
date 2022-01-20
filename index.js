@@ -14,7 +14,7 @@ const secure_app = express();
 // keep alive
 cron.schedule('* * * * *', function() {
     // console.log('running a task every minute');
-    const HEROKU_URL = (process.env.HEROKU_PING_URL || 'https://mnft-price-bot-tg.herokuapp.com')
+    const HEROKU_URL = (process.env.HEROKU_PING_URL || 'https://cmf-ticker-bot.herokuapp.com/')
     axios.get(HEROKU_URL)
     .then(function (response) {
         // handle success
