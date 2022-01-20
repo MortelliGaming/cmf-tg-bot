@@ -5,6 +5,7 @@
   "main": "index.js",
   "scripts": {
     "start": "node index.js",
+    "start-dev": "vue-cli-service build && node index.js",
     "test": "echo \"Error: no test specified\" && exit 0",
     "serve": "vue-cli-service serve",
     "build": "vue-cli-service build",
