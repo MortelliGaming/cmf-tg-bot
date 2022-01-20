@@ -1,0 +1,53 @@
+{
+  "name": "cmf-tg-price-bot",
+  "version": "1.0.0",
+  "description": "the CryptoMyFace TG Bot",
+  "main": "index.js",
+  "scripts": {
+    "start": "node index.js",
+    "test": "echo \"Error: no test specified\" && exit 0",
+    "serve": "vue-cli-service serve",
+    "build": "vue-cli-service build",
+    "lint": "vue-cli-service lint"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "axios": "^0.21.4",
+    "chartjs-to-image": "^1.0.4",
+    "dotenv": "^10.0.0",
+    "express": "^4.17.2",
+    "moment": "^2.29.1",
+    "node-cron": "^3.0.0",
+    "node-html-to-image": "^3.2.0",
+    "node-telegram-bot-api": "^0.54.0",
+    "numeral": "^2.0.6",
+    "puppeteer": "^10.4.0",
+    "puppeteer-extra": "^3.2.3",
+    "puppeteer-extra-plugin-recaptcha": "^3.5.0",
+    "puppeteer-extra-plugin-stealth": "^2.8.1",
+    "telegraf": "^4.4.2",
+    "bulma": "^0.9.3",
+    "chart.js": "^3.7.0",
+    "currency-symbol-map": "^5.0.1",
+    "vue": "^3.2.13",
+    "vue-router": "^4.0.12"
+  },
+  "devDependencies": {
+    "@vue/compiler-sfc": "^3.2.12",
+    "@vue/cli": "~5.0.0-rc.2",
+    "@vue/cli-service": "~5.0.0-rc.2",
+    "@vue/cli-plugin-eslint": "~5.0.0-rc.2",
+    "@vue/eslint-config-airbnb": "^6.0.0",
+    "eslint": "^7.32.0",
+    "eslint-plugin-import": "^2.25.3",
+    "eslint-plugin-vue": "^8.0.3",
+    "eslint-plugin-vuejs-accessibility": "^1.1.0",
+    "lint-staged": "^11.1.2",
+    "sass-loader": "^12.0.0",
+    "sass": "^1.41.1"
+  },
+  "engines": {
+    "node": "16.13.x"
+  }
+}
