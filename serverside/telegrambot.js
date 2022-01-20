@@ -40,7 +40,6 @@ initializeBot = function() {
             var tokenSymbol = getToken(params)
             var days = getDays(params)
             
-            ctx.deleteMessage()
             loadAllTokenIds().then((tokenList) => {
                 var found = false
                 tokenList.map(tokenInfo => {
@@ -61,7 +60,6 @@ initializeBot = function() {
             var tokenSymbol = getToken(params)
             var days = getDays(params)
             
-            ctx.deleteMessage()
             loadAllTokenIds().then((tokenList) => {
                 var found = false
                 tokenList.map(tokenInfo => {
@@ -82,7 +80,6 @@ initializeBot = function() {
             var tokenSymbol = getToken(params)
             var days = getDays(params)
             
-            ctx.deleteMessage()
             loadAllTokenIds().then((tokenList) => {
                 var found = false
                 tokenList.map(tokenInfo => {
@@ -129,7 +126,6 @@ initializeBot = function() {
         })
 
         bot.on('callback_query', (ctx) => {
-            ctx.deleteMessage()
             if(ctx.callbackQuery.data.includes('{{[i]}}')) {
                 replyWithTicker(ctx, ctx.callbackQuery.data.replace('{{[i]}}', ''), 1, 'USD', 'prices', 'Price')
             }
@@ -149,7 +145,6 @@ initializeBot = function() {
         })
 
         bot.command("i", (ctx) => {
-            ctx.deleteMessage()
             loadTopTokens().then((tokenList) => {
                 var keys =  getTopTokenKeys('{{[i]}}', tokenList)
                 bot.telegram.sendMessage(ctx.chat.id, "*choose a token*", {
@@ -161,7 +156,6 @@ initializeBot = function() {
             })
         })
         bot.command("top", (ctx) => {
-            ctx.deleteMessage()
             loadTopTokens().then((tokenList) => {
                 var allSymbols = [];
 
@@ -193,7 +187,6 @@ initializeBot = function() {
             })
         })
         bot.command("cap", (ctx) => {
-            ctx.deleteMessage()
             loadTopTokens().then((tokenList) => {
                 var keys =  getTopTokenKeys('{{[cap]}}', tokenList)
                 bot.telegram.sendMessage(ctx.chat.id, "*choose a token*", {
@@ -205,7 +198,6 @@ initializeBot = function() {
             })
         })
         bot.command("volume", (ctx) => {
-            ctx.deleteMessage()
             loadTopTokens().then((tokenList) => {
                 var keys =  getTopTokenKeys('{{[volume]}}', tokenList)
                 bot.telegram.sendMessage(ctx.chat.id, "*choose a token*", {
@@ -218,7 +210,6 @@ initializeBot = function() {
         })
 
         bot.command("markets", (ctx) => {
-            ctx.deleteMessage()
             loadTopTokens().then((tokenList) => {
                 var keys =  getTopTokenKeys('{{[markets]}}', tokenList)
                 bot.telegram.sendMessage(ctx.chat.id, "*choose a token*", {
