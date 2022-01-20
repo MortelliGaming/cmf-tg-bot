@@ -324,6 +324,20 @@ function replyWithBaseTickerImage(ctx, tokenSymbol, tokenName, tokenValue, token
     replyWithScreenshot(ctx, createBaseTickerUrl(tokenSymbol, tokenName, tokenValue, tokenImage, tokenChange, timespan, tokenRank, conversionCurrency, graphData, caption, abbreviateValue))
 }
 
+function replyWithTokenMarkets(ctx, tokenId) {
+    loadCoinInfo(tokenId).then((tokenData) => {
+        var markets = []
+        tokenData.tickers.map(ticker => {
+            if(!markets.includes(ticker.market.name))
+               markets.push(ticker.market.name)
+        })
+        ctx.reply('*'+tokenData.name +' ('+tokenData.symbol.toUpperCase()+') ' + ' is traded on following markets:* \n\n' + markets.join('\n'), { parse_mode: "Markdown" })
+    }).catch(err => {
+        console.log(err)
+        // ctx.reply('sorry sir/madame/other non-binary individuum, there was an error while processing your request')
+    })
+}
+
 function replyWithScreenshot(ctx, url) {
     puppeteerBrowser.newPage().then(async page => {
         // page.setUserAgent("Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/66.0.3359.181 Safari/537.36 WAIT_UNTIL=load")
