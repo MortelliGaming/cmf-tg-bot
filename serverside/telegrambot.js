@@ -254,11 +254,11 @@ module.exports = {
 function replyWithTicker(ctx, tokenId, days, currency, priceProperty, caption, abbreviateValue = true) {
     loadCoinInfo(tokenId).then(coinInfo => {
         loadHistoryData(tokenId, days, priceProperty).then(tokenHistory => {
-            console.log(coinInfo)
+            console.log()
             replyWithBaseTickerImage(ctx,
                 coinInfo.symbol.toUpperCase(),
                 coinInfo.name,
-                (tokenHistory.prices[tokenHistory.prices.length-1].y ? tokenHistory.prices[tokenHistory.prices.length-1].y : coinInfo.price),
+                Number.parseFloat(coinInfo.market_data.current_price[currency.toLowerCase()]),
                 coinInfo.image.large,
                 (tokenHistory.prices[tokenHistory.prices.length-1].y * 100 / tokenHistory.prices[0].y) - 100,
                 (days > 1 ? days + ' days': '24 hours'),
