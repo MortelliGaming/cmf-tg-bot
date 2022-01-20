@@ -1,5 +1,6 @@
-import { createRouter, createWebHistory } from "vue-router";
+import { createWebHistory, createRouter } from "vue-router";
 import CustomValueTicker from "../views/CustomValueTicker.vue";
+import TopTenTicker from "../views/TopTenTicker.vue";
 
 const routes = [
   {
@@ -8,9 +9,10 @@ const routes = [
     component: CustomValueTicker,
   },
   {
-    path:'/',
-    
-  }
+    path: "/toptenticker",
+    name: "toptenticker",
+    component: TopTenTicker,
+  },
 ];
 
 const router = createRouter({
