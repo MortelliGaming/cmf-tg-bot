@@ -37,6 +37,9 @@ app.use(express.static(path));
 app.get('/customvalueticker', function (req,res) {
     res.sendFile(path + "index.html");
 });
+app.get('/toptenticker', function (req,res) {
+    res.sendFile(path + "index.html");
+});
 
 secure_app.get('/', function (req,res) {
     res.status(200).send('OK');
