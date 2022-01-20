@@ -51,7 +51,6 @@ export default {
   },
   methods: {
     handleImageLoad(rank) {
-      console.log(rank);
       if (rank.toString() === '9') {
         this.loaded = true;
       }

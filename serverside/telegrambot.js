@@ -170,19 +170,15 @@ initializeBot = function() {
                     }
                 })
 
-                console.log(sortedTokens.length)
                 sortedTokens = sortedTokens.filter((item) => {
-                    console.log(item.symbol)
                     if(allSymbols.includes(item.symbol)) {
                         return false
                     }
                     allSymbols.push(item.symbol)
                     return true
                 })
-                console.log(sortedTokens.length)
                 var sortedTokens = sortedTokens.slice(0,10)
-                console.log(sortedTokens)
-                console.log('http://localhost:'+VUE_PORT+'/toptenticker?tokenInfos='+JSON.stringify(sortedTokens))
+                // console.log('http://localhost:'+VUE_PORT+'/toptenticker?tokenInfos='+JSON.stringify(sortedTokens))
                 replyWithScreenshot(ctx, 'http://localhost:'+VUE_PORT+'/toptenticker?tokenInfos='+JSON.stringify(sortedTokens))
             })
         })
@@ -254,7 +250,6 @@ module.exports = {
 function replyWithTicker(ctx, tokenId, days, currency, priceProperty, caption, abbreviateValue = true) {
     loadCoinInfo(tokenId).then(coinInfo => {
         loadHistoryData(tokenId, days, priceProperty).then(tokenHistory => {
-            console.log()
             replyWithBaseTickerImage(ctx,
                 coinInfo.symbol.toUpperCase(),
                 coinInfo.name,
