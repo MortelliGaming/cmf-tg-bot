@@ -128,15 +128,19 @@ initializeBot = function() {
         bot.on('callback_query', (ctx) => {
             if(ctx.callbackQuery.data.includes('{{[i]}}')) {
                 replyWithTicker(ctx, ctx.callbackQuery.data.replace('{{[i]}}', ''), 1, 'USD', 'prices', 'Price')
+                ctx.deleteMessage();
             }
             if(ctx.callbackQuery.data.includes('{{[cap]}}')) {
                 replyWithTicker(ctx, ctx.callbackQuery.data.replace('{{[cap]}}', ''), 1, 'USD', 'market_caps', 'Market Capitalisation')
+                ctx.deleteMessage();
             }
             if(ctx.callbackQuery.data.includes('{{[volume]}}')) {
                 replyWithTicker(ctx, ctx.callbackQuery.data.replace('{{[volume]}}', ''), 1, 'USD', 'total_volumes', 'Volume')
+                ctx.deleteMessage();
             }
             if(ctx.callbackQuery.data.includes('{{[markets]}}')) {
                 replyWithTokenMarkets(ctx, ctx.callbackQuery.data.replace('{{[markets]}}', ''),)
+                ctx.deleteMessage();
             }
             
             ctx.telegram.answerCbQuery(ctx.callbackQuery.id)
@@ -320,7 +324,6 @@ function replyWithTokenMarkets(ctx, tokenId) {
         ctx.reply('*'+tokenData.name +' ('+tokenData.symbol.toUpperCase()+') ' + ' is traded on following markets:* \n\n' + markets.join('\n'), { parse_mode: "Markdown" })
     }).catch(err => {
         console.log(err)
-        // ctx.reply('sorry sir/madame/other non-binary individuum, there was an error while processing your request')
     })
 }
 
@@ -348,5 +351,6 @@ function createBaseTickerUrl(tokenSymbol, tokenName, tokenValue, tokenImage, tok
         '&graphdata='+JSON.stringify(graphData)+
         '&tokenImage='+tokenImage +
         '&abbreviateValue='+abbreviateValue
+    // console.log('ticker url: ', url)
     return url;
 }
