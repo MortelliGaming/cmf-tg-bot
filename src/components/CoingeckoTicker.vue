@@ -1,6 +1,6 @@
 <script setup>
 import getSymbolFromCurrency from 'currency-symbol-map';
-import { chartOptions, generateChart } from '../helpers/chartOptions.js';
+import { generateChart } from '../helpers/chartOptions.js';
 import { coins } from '../helpers/coingeckoAPI.js';
 
 import TickerFooter from '../components/TickerFooter.vue';
@@ -50,10 +50,7 @@ export default {
   data() {
     return {
       tokenInfo: null,
-      lineChartUrl: null,
-      chartOptions,
-      generateChart,
-      getSymbolFromCurrency,
+      lineChartUrl: null
     };
   },
   computed: {
@@ -115,7 +112,7 @@ export default {
   mounted() {
     coins(this.tokenId, this.days, this.currency,true).then(data => {
       this.tokenInfo = data
-      const lineChart = this.generateChart(548, 1400, this.historyData);
+      const lineChart = generateChart(548, 1400, this.historyData);
       this.lineChartUrl = lineChart;
     })
   },
