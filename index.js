@@ -28,16 +28,12 @@ cron.schedule('* * * * *', function() {
     .then(function () {
         // always executed
     });
-
 });
 // 
 
 
 app.use(express.static(path));
-app.get('/customvalueticker', function (req,res) {
-    res.sendFile(path + "index.html");
-});
-app.get('/toptenticker', function (req,res) {
+app.get('*', function (req,res) {
     res.sendFile(path + "index.html");
 });
 

@@ -43,8 +43,9 @@ initializeBot = function() {
             loadAllTokenIds().then((tokenList) => {
                 var found = false
                 tokenList.map(tokenInfo => {
-                    if(tokenInfo.symbol.toUpperCase() === tokenSymbol.toUpperCase() || tokenInfo.name.toUpperCase() === tokenSymbol.toUpperCase()) {
-                        replyWithTicker(ctx, tokenInfo.id, days, currency, 'prices', 'Price', false)
+                    if(tokenInfo.id.toUpperCase() === tokenSymbol.toUpperCase() ||tokenInfo.symbol.toUpperCase() === tokenSymbol.toUpperCase() || tokenInfo.name.toUpperCase() === tokenSymbol.toUpperCase()) {
+                        console.log(tokenInfo.id)
+                        replyWithPriceTicker(ctx, tokenInfo.id, days, currency)
                         found = true;
                     }
                 })
@@ -63,8 +64,8 @@ initializeBot = function() {
             loadAllTokenIds().then((tokenList) => {
                 var found = false
                 tokenList.map(tokenInfo => {
-                    if(tokenInfo.symbol.toUpperCase() === tokenSymbol.toUpperCase() || tokenInfo.name.toUpperCase() === tokenSymbol.toUpperCase()) {
-                        replyWithTicker(ctx, tokenInfo.id, days, currency, 'market_caps', 'Market Capitalisation')
+                    if(tokenInfo.id.toUpperCase() === tokenSymbol.toUpperCase() ||tokenInfo.symbol.toUpperCase() === tokenSymbol.toUpperCase() || tokenInfo.name.toUpperCase() === tokenSymbol.toUpperCase()) {
+                        replyWithMarketCapTicker(ctx, tokenInfo.id, days, currency)
                         found = true;
                     }
                 })
@@ -83,8 +84,8 @@ initializeBot = function() {
             loadAllTokenIds().then((tokenList) => {
                 var found = false
                 tokenList.map(tokenInfo => {
-                    if(tokenInfo.symbol.toUpperCase() === tokenSymbol.toUpperCase() || tokenInfo.name.toUpperCase() === tokenSymbol.toUpperCase()) {
-                        replyWithTicker(ctx, tokenInfo.id, days, currency, 'total_volumes', 'Volume')
+                    if(tokenInfo.id.toUpperCase() === tokenSymbol.toUpperCase() ||tokenInfo.symbol.toUpperCase() === tokenSymbol.toUpperCase() || tokenInfo.name.toUpperCase() === tokenSymbol.toUpperCase()) {
+                        replyWithVolumeTicker(ctx, tokenInfo.id, days, currency)
                         found = true;
                     }
                 })
@@ -104,7 +105,7 @@ initializeBot = function() {
             loadAllTokenIds().then((tokenList) => {
                 var found = false
                 tokenList.map(tokenInfo => {
-                    if(tokenInfo.symbol.toUpperCase() === tokenSymbol.toUpperCase() || tokenInfo.name.toUpperCase() === tokenSymbol.toUpperCase()) {
+                    if(tokenInfo.id.toUpperCase() === tokenSymbol.toUpperCase() ||tokenInfo.symbol.toUpperCase() === tokenSymbol.toUpperCase() || tokenInfo.name.toUpperCase() === tokenSymbol.toUpperCase()) {
                         replyWithTokenMarkets(ctx, tokenInfo.id)
                         found = true;
                     }
@@ -127,15 +128,15 @@ initializeBot = function() {
 
         bot.on('callback_query', (ctx) => {
             if(ctx.callbackQuery.data.includes('{{[i]}}')) {
-                replyWithTicker(ctx, ctx.callbackQuery.data.replace('{{[i]}}', ''), 1, 'USD', 'prices', 'Price')
+                replyWithPriceTicker(ctx, ctx.callbackQuery.data.replace('{{[i]}}', ''), 1, 'USD')
                 ctx.deleteMessage();
             }
             if(ctx.callbackQuery.data.includes('{{[cap]}}')) {
-                replyWithTicker(ctx, ctx.callbackQuery.data.replace('{{[cap]}}', ''), 1, 'USD', 'market_caps', 'Market Capitalisation')
+                replyWithMarketCapTicker(ctx, ctx.callbackQuery.data.replace('{{[cap]}}', ''), 1, 'USD')
                 ctx.deleteMessage();
             }
             if(ctx.callbackQuery.data.includes('{{[volume]}}')) {
-                replyWithTicker(ctx, ctx.callbackQuery.data.replace('{{[volume]}}', ''), 1, 'USD', 'total_volumes', 'Volume')
+                replyWithVolumeTicker(ctx, ctx.callbackQuery.data.replace('{{[volume]}}', ''), 1, 'USD')
                 ctx.deleteMessage();
             }
             if(ctx.callbackQuery.data.includes('{{[markets]}}')) {
@@ -244,29 +245,27 @@ module.exports = {
             },
             headless: true,
             args: ['--no-sandbox','--disable-setuid-sandbox']
-        }).then(browser => {
+        }).then(async browser => {
             puppeteerBrowser = browser
             initializeBot();
+            await clearPupeteerPages()
         })
-    }
+    },
 }
 
-function replyWithTicker(ctx, tokenId, days, currency, priceProperty, caption, abbreviateValue = true) {
+function replyWithPriceTicker(ctx, tokenId, days, currency) {
     loadCoinInfo(tokenId).then(coinInfo => {
-        loadHistoryData(tokenId, days, priceProperty).then(tokenHistory => {
-            replyWithBaseTickerImage(ctx,
-                coinInfo.symbol.toUpperCase(),
-                coinInfo.name,
-                Number.parseFloat(coinInfo.market_data.current_price[currency.toLowerCase()]),
-                coinInfo.image.large,
-                (tokenHistory.prices[tokenHistory.prices.length-1].y * 100 / tokenHistory.prices[0].y) - 100,
-                (days > 1 ? days + ' days': '24 hours'),
-                coinInfo.market_cap_rank,
-                currency.toUpperCase(),
-                tokenHistory.prices,
-                caption + ' in '+ currency.toUpperCase(),
-                abbreviateValue)
-        })
+        replyWithCoingeckoPriceTickerImage(ctx, coinInfo.id, days, currency)
+    })
+}
+function replyWithVolumeTicker(ctx, tokenId, days, currency) {
+    loadCoinInfo(tokenId).then(coinInfo => {
+        replyWithCoingeckoVolumeTickerImage(ctx, coinInfo.id, days, currency)
+    })
+}
+function replyWithMarketCapTicker(ctx, tokenId, days, currency) {
+    loadCoinInfo(tokenId).then(coinInfo => {
+        replyWithCoingeckoMarketCapTickerImage(ctx, coinInfo.id, days, currency)
     })
 }
 
@@ -310,8 +309,14 @@ function getDays(params) {
     return params.split(' ').length > 1 ? (Number.isInteger(Number.parseInt(params.split(' ')[1])) ? Number.parseInt(params.split(' ')[1]) : 1) : 1
 }
 
-function replyWithBaseTickerImage(ctx, tokenSymbol, tokenName, tokenValue, tokenImage, tokenChange, timespan, tokenRank, conversionCurrency, graphData, caption, abbreviateValue) {
-    replyWithScreenshot(ctx, createBaseTickerUrl(tokenSymbol, tokenName, tokenValue, tokenImage, tokenChange, timespan, tokenRank, conversionCurrency, graphData, caption, abbreviateValue))
+function replyWithCoingeckoPriceTickerImage(ctx, tokenId, days, vsCurrency) {
+    replyWithScreenshot(ctx, createCoingeckoPriceTickerUrl(tokenId, days, vsCurrency))
+}
+function replyWithCoingeckoVolumeTickerImage(ctx, tokenId, days, vsCurrency) {
+    replyWithScreenshot(ctx, createCoingeckoVolumeTickerUrl(tokenId, days, vsCurrency))
+}
+function replyWithCoingeckoMarketCapTickerImage(ctx, tokenId, days, vsCurrency) {
+    replyWithScreenshot(ctx, createCoingeckoMarketCapTickerUrl(tokenId, days, vsCurrency))
 }
 
 function replyWithTokenMarkets(ctx, tokenId) {
@@ -327,31 +332,48 @@ function replyWithTokenMarkets(ctx, tokenId) {
     })
 }
 
+async function clearPupeteerPages() {
+    const pages = await puppeteerBrowser.pages()
+    for(page in pages) {
+        pages[page].close()
+    }
+}
+
 function replyWithScreenshot(ctx, url) {
     puppeteerBrowser.newPage().then(async page => {
         // page.setUserAgent("Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/66.0.3359.181 Safari/537.36 WAIT_UNTIL=load")
         page.goto(url, {"waitUntil" : "networkidle0"}).then(async () => {
             page.screenshot().then(screenshot => {
                 ctx.replyWithPhoto({source: screenshot})
-                page.close();
+                page.close()
             })
         })
     })
 }
 
-function createBaseTickerUrl(tokenSymbol, tokenName, tokenValue, tokenImage, tokenChange, timespan, tokenRank, conversionCurrency, graphData, caption, abbreviateValue) {
-    var url = 'http://localhost:'+VUE_PORT+'/customvalueticker?'+
-        'tokenValue='+tokenValue +
-        '&tokenSymbol='+tokenSymbol+
-        '&tokenName='+tokenName+
-        '&timespan='+timespan+
-        '&caption='+caption+
-        '&tokenChangePercentage='+tokenChange+
-        '&tokenRank='+tokenRank+
-        '&conversionCurrency='+conversionCurrency+
-        '&graphdata='+JSON.stringify(graphData)+
-        '&tokenImage='+tokenImage +
-        '&abbreviateValue='+abbreviateValue
-    // console.log('ticker url: ', url)
+function createCoingeckoPriceTickerUrl(tokenId, days, vsCurrency) {
+    var url = 'http://localhost:'+VUE_PORT+'/coingeckopriceticker?'+
+        'tokenId='+tokenId +
+        '&vsCurrency='+vsCurrency +
+        '&days='+days
+    console.log('ticker url: ', url)
+    return url;
+}
+
+function createCoingeckoVolumeTickerUrl(tokenId, days, vsCurrency) {
+    var url = 'http://localhost:'+VUE_PORT+'/coingeckovolumeticker?'+
+        'tokenId='+tokenId +
+        '&vsCurrency='+vsCurrency +
+        '&days='+days
+    console.log('ticker url: ', url)
+    return url;
+}
+
+function createCoingeckoMarketCapTickerUrl(tokenId, days, vsCurrency) {
+    var url = 'http://localhost:'+VUE_PORT+'/coingeckomarketcapticker?'+
+        'tokenId='+tokenId +
+        '&vsCurrency='+vsCurrency +
+        '&days='+days
+    console.log('ticker url: ', url)
     return url;
 }
