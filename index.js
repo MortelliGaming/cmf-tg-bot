@@ -10,7 +10,7 @@ const app = express();
 const secure_app = express();
 
 
-
+/*
 // keep alive
 cron.schedule('* * * * *', function() {
     // console.log('running a task every minute');
@@ -30,7 +30,7 @@ cron.schedule('* * * * *', function() {
     });
 });
 // 
-
+*/ 
 
 app.use(express.static(path));
 app.get('*', function (req,res) {
