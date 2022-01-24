@@ -7,7 +7,6 @@ const {
     loadAllTokenIds,
     loadCurrencies,
     loadCoinInfo,
-    loadHistoryData,
     loadTopTokens,
     loadTrendingList
 } = require('./coingeckoAPI')
@@ -309,6 +308,9 @@ function getDays(params) {
     return params.split(' ').length > 1 ? (Number.isInteger(Number.parseInt(params.split(' ')[1])) ? Number.parseInt(params.split(' ')[1]) : 1) : 1
 }
 
+function replyWithBasicTextTickerImage(ctx, caption, value) {
+    replyWithScreenshot(ctx, createBasicTextTickerUrl(caption, value))
+}
 function replyWithCoingeckoPriceTickerImage(ctx, tokenId, days, vsCurrency) {
     replyWithScreenshot(ctx, createCoingeckoPriceTickerUrl(tokenId, days, vsCurrency))
 }
@@ -374,6 +376,14 @@ function createCoingeckoMarketCapTickerUrl(tokenId, days, vsCurrency) {
         'tokenId='+tokenId +
         '&vsCurrency='+vsCurrency +
         '&days='+days
+    console.log('ticker url: ', url)
+    return url;
+}
+
+function createBasicTextTickerUrl(caption, value) {
+    var url = 'http://localhost:'+VUE_PORT+'/basictextticker?'+
+        'caption='+caption +
+        '&value='+value
     console.log('ticker url: ', url)
     return url;
 }
