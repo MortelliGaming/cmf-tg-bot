@@ -21,9 +21,6 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-.body-content {
-  //margin-top: -70px;
-}
 .token-price {
   font-size: 35px;
   font-weight: bold;
