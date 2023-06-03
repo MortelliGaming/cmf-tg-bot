@@ -10,7 +10,7 @@ export const chartOptions = {
         borderColor: '#ff4dd2',
         // borderColor: '#ad16db',
         borderWidth: 15,
-        backgroundColor: 'rgba(255,+99,+132,+.5)',
+        backgroundColor: 'transparent',
         data: [],
       },
     ],
@@ -22,7 +22,7 @@ export const chartOptions = {
       },
     },
     chartArea: {
-      backgroundColor: 'rgba(255,+99,+132,0)',
+      backgroundColor: 'transparent',
     },
     legend: {
       display: false,
