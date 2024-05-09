@@ -23,7 +23,7 @@ var currencies = []
 loadAllTokens =  function() {
     loadCurrencies().then(result => {
         currencies = result
-    })
+    }).catch(() => {})
 }
 
 initializeBot = function() {
@@ -50,7 +50,7 @@ initializeBot = function() {
                 })
                 if(!found)
                     ctx.reply(getErrorMessage())
-            })
+            }).catch(() => {})
         })
 
         bot.hears(/^\/cap (.+)/, (ctx) => {
@@ -70,7 +70,7 @@ initializeBot = function() {
                 })
                 if(!found)
                     ctx.reply(getErrorMessage())
-            })
+            }).catch(() => {})
         })
 
         bot.hears(/^\/volume (.+)/, (ctx) => {
@@ -90,7 +90,7 @@ initializeBot = function() {
                 })
                 if(!found)
                     ctx.reply(getErrorMessage())
-            })
+            }).catch(() => {})
         })
 
         bot.hears(/^\/markets (.+)/, (ctx) => {
@@ -111,7 +111,7 @@ initializeBot = function() {
                 })
                 if(!found)
                     ctx.reply(getErrorMessage())
-            })
+            }).catch(() => {})
         })
 
 
@@ -122,7 +122,7 @@ initializeBot = function() {
                     tokenLinks.push('['+tokenInfo.item.name + ' ('+tokenInfo.item.symbol+')]('+'https://coingecko.com/coins/'+tokenInfo.item.id+')')
                 })
                 ctx.reply('*Trending on Coingecko:* \n\n' + tokenLinks.join('\n'), { parse_mode: "Markdown" })
-            })
+            }).catch(() => {})
         })
 
         bot.on('callback_query', (ctx) => {
@@ -157,7 +157,7 @@ initializeBot = function() {
                     },
                     parse_mode: "MarkdownV2"
                 })
-            })
+            }).catch(() => {})
         })
         bot.command("top", (ctx) => {
             loadTopTokens().then((tokenList) => {
@@ -184,7 +184,7 @@ initializeBot = function() {
                 var sortedTokens = sortedTokens.slice(0,10)
                 // console.log('http://localhost:'+VUE_PORT+'/toptenticker?tokenInfos='+JSON.stringify(sortedTokens))
                 replyWithScreenshot(ctx, 'http://localhost:'+VUE_PORT+'/toptenticker?tokenInfos='+JSON.stringify(sortedTokens))
-            })
+            }).catch(() => {})
         })
         bot.command("cap", (ctx) => {
             loadTopTokens().then((tokenList) => {
@@ -195,7 +195,7 @@ initializeBot = function() {
                     },
                     parse_mode: "MarkdownV2"
                 })
-            })
+            }).catch(() => {})
         })
         bot.command("volume", (ctx) => {
             loadTopTokens().then((tokenList) => {
@@ -206,7 +206,7 @@ initializeBot = function() {
                     },
                     parse_mode: "MarkdownV2"
                 })
-            })
+            }).catch(() => {})
         })
 
         bot.command("markets", (ctx) => {
@@ -218,7 +218,7 @@ initializeBot = function() {
                     },
                     parse_mode: "MarkdownV2"
                 })
-            })
+            }).catch(() => {})
         })
 
         bot.command("currencies", (ctx) => {
@@ -255,17 +255,17 @@ module.exports = {
 function replyWithPriceTicker(ctx, tokenId, days, currency) {
     loadCoinInfo(tokenId).then(coinInfo => {
         replyWithCoingeckoPriceTickerImage(ctx, coinInfo.id, days, currency)
-    })
+    }).catch(() => {})
 }
 function replyWithVolumeTicker(ctx, tokenId, days, currency) {
     loadCoinInfo(tokenId).then(coinInfo => {
         replyWithCoingeckoVolumeTickerImage(ctx, coinInfo.id, days, currency)
-    })
+    }).catch(() => {})
 }
 function replyWithMarketCapTicker(ctx, tokenId, days, currency) {
     loadCoinInfo(tokenId).then(coinInfo => {
         replyWithCoingeckoMarketCapTickerImage(ctx, coinInfo.id, days, currency)
-    })
+    }).catch(() => {})
 }
 
 function getTopTokenKeys(callbackPrefix, tokenList) {
