@@ -41,8 +41,9 @@ initializeBot = function() {
             
             loadAllTokenIds().then((tokenList) => {
                 var found = false
-                tokenList.map(tokenInfo => {
-                    if(tokenInfo.id.toUpperCase() === tokenSymbol.toUpperCase() ||tokenInfo.symbol.toUpperCase() === tokenSymbol.toUpperCase() || tokenInfo.name.toUpperCase() === tokenSymbol.toUpperCase()) {
+                tokenList.map(async tokenInfo => {
+                    await setTimeout(() => Promise.resolve(true), 250)
+                    if(tokenInfo.id.toUpperCase() === tokenSymbol.toUpperCase() ||tokenInfo.symbol.toUpperCase() === tokenSymbol.toUpperCase() || tokenInfo.name.toUpperCase() === tokenSymbol.toUpperCase()) {
                         console.log(tokenInfo.id)
                         replyWithPriceTicker(ctx, tokenInfo.id, days, currency)
                         found = true;
@@ -60,8 +61,9 @@ initializeBot = function() {
             var tokenSymbol = getToken(params)
             var days = getDays(params)
             
-            loadAllTokenIds().then((tokenList) => {
+            loadAllTokenIds().then(async (tokenList) => {
                 var found = false
+                await setTimeout(() => Promise.resolve(true), 250)
                 tokenList.map(tokenInfo => {
                     if(tokenInfo.id.toUpperCase() === tokenSymbol.toUpperCase() ||tokenInfo.symbol.toUpperCase() === tokenSymbol.toUpperCase() || tokenInfo.name.toUpperCase() === tokenSymbol.toUpperCase()) {
                         replyWithMarketCapTicker(ctx, tokenInfo.id, days, currency)
@@ -80,8 +82,9 @@ initializeBot = function() {
             var tokenSymbol = getToken(params)
             var days = getDays(params)
             
-            loadAllTokenIds().then((tokenList) => {
+            loadAllTokenIds().then(async (tokenList) => {
                 var found = false
+                await setTimeout(() => Promise.resolve(true), 250)
                 tokenList.map(tokenInfo => {
                     if(tokenInfo.id.toUpperCase() === tokenSymbol.toUpperCase() ||tokenInfo.symbol.toUpperCase() === tokenSymbol.toUpperCase() || tokenInfo.name.toUpperCase() === tokenSymbol.toUpperCase()) {
                         replyWithVolumeTicker(ctx, tokenInfo.id, days, currency)
@@ -103,7 +106,8 @@ initializeBot = function() {
             }
             loadAllTokenIds().then((tokenList) => {
                 var found = false
-                tokenList.map(tokenInfo => {
+                tokenList.map(async tokenInfo => {
+                    await setTimeout(() => Promise.resolve(true), 250)
                     if(tokenInfo.id.toUpperCase() === tokenSymbol.toUpperCase() ||tokenInfo.symbol.toUpperCase() === tokenSymbol.toUpperCase() || tokenInfo.name.toUpperCase() === tokenSymbol.toUpperCase()) {
                         replyWithTokenMarkets(ctx, tokenInfo.id)
                         found = true;
@@ -116,9 +120,10 @@ initializeBot = function() {
 
 
         bot.hears("/t", (ctx) => {
-            loadTrendingList().then((tokenList) => {
+            loadTrendingList().then(async (tokenList) => {
                 var tokenLinks = []
-                tokenList.coins.map((tokenInfo) => {
+                tokenList.coins.map(async (tokenInfo) => {
+                    await setTimeout(() => Promise.resolve(true), 250)
                     tokenLinks.push('['+tokenInfo.item.name + ' ('+tokenInfo.item.symbol+')]('+'https://coingecko.com/coins/'+tokenInfo.item.id+')')
                 })
                 ctx.reply('*Trending on Coingecko:* \n\n' + tokenLinks.join('\n'), { parse_mode: "Markdown" })
