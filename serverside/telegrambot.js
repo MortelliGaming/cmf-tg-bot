@@ -39,16 +39,16 @@ initializeBot = function() {
             var tokenSymbol = getToken(params)
             var days = getDays(params)
             
-            loadAllTokenIds().then((tokenList) => {
+            loadAllTokenIds().then(async (tokenList) => {
                 var found = false
-                tokenList.map(async tokenInfo => {
-                    await setTimeout(() => Promise.resolve(true), 250)
+                for(const tokenInfo of tokenList) {
                     if(tokenInfo.id.toUpperCase() === tokenSymbol.toUpperCase() ||tokenInfo.symbol.toUpperCase() === tokenSymbol.toUpperCase() || tokenInfo.name.toUpperCase() === tokenSymbol.toUpperCase()) {
+                        await setTimeout(() => Promise.resolve(true), 250);
                         console.log(tokenInfo.id)
                         replyWithPriceTicker(ctx, tokenInfo.id, days, currency)
                         found = true;
                     }
-                })
+                }
                 if(!found)
                     ctx.reply(getErrorMessage())
             }).catch(() => {})
@@ -63,13 +63,13 @@ initializeBot = function() {
             
             loadAllTokenIds().then(async (tokenList) => {
                 var found = false
-                await setTimeout(() => Promise.resolve(true), 250)
-                tokenList.map(tokenInfo => {
+                for(const tokenInfo of tokenList) {
                     if(tokenInfo.id.toUpperCase() === tokenSymbol.toUpperCase() ||tokenInfo.symbol.toUpperCase() === tokenSymbol.toUpperCase() || tokenInfo.name.toUpperCase() === tokenSymbol.toUpperCase()) {
+                        await setTimeout(() => Promise.resolve(true), 250)
                         replyWithMarketCapTicker(ctx, tokenInfo.id, days, currency)
                         found = true;
                     }
-                })
+                }
                 if(!found)
                     ctx.reply(getErrorMessage())
             }).catch(() => {})
@@ -84,13 +84,13 @@ initializeBot = function() {
             
             loadAllTokenIds().then(async (tokenList) => {
                 var found = false
-                await setTimeout(() => Promise.resolve(true), 250)
-                tokenList.map(tokenInfo => {
+                for(const tokenInfo of tokenList) {
                     if(tokenInfo.id.toUpperCase() === tokenSymbol.toUpperCase() ||tokenInfo.symbol.toUpperCase() === tokenSymbol.toUpperCase() || tokenInfo.name.toUpperCase() === tokenSymbol.toUpperCase()) {
+                        await setTimeout(() => Promise.resolve(true), 250)
                         replyWithVolumeTicker(ctx, tokenInfo.id, days, currency)
                         found = true;
                     }
-                })
+                }
                 if(!found)
                     ctx.reply(getErrorMessage())
             }).catch(() => {})
@@ -104,15 +104,15 @@ initializeBot = function() {
             } else {
                 tokenSymbol = params
             }
-            loadAllTokenIds().then((tokenList) => {
+            loadAllTokenIds().then(async (tokenList) => {
                 var found = false
-                tokenList.map(async tokenInfo => {
-                    await setTimeout(() => Promise.resolve(true), 250)
+                for(const tokenInfo of tokenList) {
                     if(tokenInfo.id.toUpperCase() === tokenSymbol.toUpperCase() ||tokenInfo.symbol.toUpperCase() === tokenSymbol.toUpperCase() || tokenInfo.name.toUpperCase() === tokenSymbol.toUpperCase()) {
+                        await setTimeout(() => Promise.resolve(true), 250)
                         replyWithTokenMarkets(ctx, tokenInfo.id)
                         found = true;
                     }
-                })
+                }
                 if(!found)
                     ctx.reply(getErrorMessage())
             }).catch(() => {})
@@ -122,8 +122,7 @@ initializeBot = function() {
         bot.hears("/t", (ctx) => {
             loadTrendingList().then(async (tokenList) => {
                 var tokenLinks = []
-                tokenList.coins.map(async (tokenInfo) => {
-                    await setTimeout(() => Promise.resolve(true), 250)
+                tokenList.coins.map((tokenInfo) => {
                     tokenLinks.push('['+tokenInfo.item.name + ' ('+tokenInfo.item.symbol+')]('+'https://coingecko.com/coins/'+tokenInfo.item.id+')')
                 })
                 ctx.reply('*Trending on Coingecko:* \n\n' + tokenLinks.join('\n'), { parse_mode: "Markdown" })
