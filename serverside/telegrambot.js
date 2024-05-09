@@ -64,7 +64,7 @@ initializeBot = function() {
             loadAllTokenIds().then(async (tokenList) => {
                 var found = false
                 for(const tokenInfo of tokenList) {
-                    if(tokenInfo.id.toUpperCase() === tokenSymbol.toUpperCase() ||tokenInfo.symbol.toUpperCase() === tokenSymbol.toUpperCase() || tokenInfo.name.toUpperCase() === tokenSymbol.toUpperCase()) {
+                    if(tokenInfo.id.toUpperCase() === tokenSymbol.toUpperCase() ||tokenInfo.symbol.toUpperCase() === tokenSymbol.toUpperCase() || tokenInfo.name.toUpperCase() === tokenSymbol.toUpperCase()) {
                         await setTimeout(() => Promise.resolve(true), 250)
                         replyWithMarketCapTicker(ctx, tokenInfo.id, days, currency)
                         found = true;
@@ -85,7 +85,7 @@ initializeBot = function() {
             loadAllTokenIds().then(async (tokenList) => {
                 var found = false
                 for(const tokenInfo of tokenList) {
-                    if(tokenInfo.id.toUpperCase() === tokenSymbol.toUpperCase() ||tokenInfo.symbol.toUpperCase() === tokenSymbol.toUpperCase() || tokenInfo.name.toUpperCase() === tokenSymbol.toUpperCase()) {
+                    if(tokenInfo.id.toUpperCase() === tokenSymbol.toUpperCase() ||tokenInfo.symbol.toUpperCase() === tokenSymbol.toUpperCase() || tokenInfo.name.toUpperCase() === tokenSymbol.toUpperCase()) {
                         await setTimeout(() => Promise.resolve(true), 250)
                         replyWithVolumeTicker(ctx, tokenInfo.id, days, currency)
                         found = true;
@@ -107,7 +107,7 @@ initializeBot = function() {
             loadAllTokenIds().then(async (tokenList) => {
                 var found = false
                 for(const tokenInfo of tokenList) {
-                    if(tokenInfo.id.toUpperCase() === tokenSymbol.toUpperCase() ||tokenInfo.symbol.toUpperCase() === tokenSymbol.toUpperCase() || tokenInfo.name.toUpperCase() === tokenSymbol.toUpperCase()) {
+                    if(tokenInfo.id.toUpperCase() === tokenSymbol.toUpperCase() ||tokenInfo.symbol.toUpperCase() === tokenSymbol.toUpperCase() || tokenInfo.name.toUpperCase() === tokenSymbol.toUpperCase()) {
                         await setTimeout(() => Promise.resolve(true), 250)
                         replyWithTokenMarkets(ctx, tokenInfo.id)
                         found = true;
