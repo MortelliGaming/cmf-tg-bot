@@ -50,7 +50,7 @@ section {
   padding: 50px !important;
 }
 .hero {
-  background-image: url('../assets/cmf_transp.png');
+  background-image: url('../assets/diamondhand/logo.png');
   background-repeat: no-repeat;
   object-fit: contain;
   background-color: black;

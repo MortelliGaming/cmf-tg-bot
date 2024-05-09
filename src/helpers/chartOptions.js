@@ -8,6 +8,7 @@ export const chartOptions = {
       {
         label: '-',
         borderColor: '#ff4dd2',
+        fill: false,
         // borderColor: '#ad16db',
         borderWidth: 15,
         backgroundColor: 'transparent',
